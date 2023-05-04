@@ -7,6 +7,8 @@ import {
   Scripts,
   ScrollRestoration,
 } from "@remix-run/react";
+import { getTheme } from "~/core/Themes/Utils/utils";
+import { useUpdateTheme } from "~/core/Themes/hook/useUpdateTheme";
 import stylesheet from "~/tailwind.css";
 
 export const links: LinksFunction = () => [
@@ -14,8 +16,9 @@ export const links: LinksFunction = () => [
 ];
 
 export default function App() {
+  useUpdateTheme();
   return (
-    <html lang="en">
+    <html lang="en" style={getTheme()}>
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />

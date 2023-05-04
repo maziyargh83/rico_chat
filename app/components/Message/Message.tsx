@@ -12,11 +12,11 @@ export const Message = ({ message }: MessageProps) => {
     <div className="relative my-3">
       <div
         className={clsx(
-          "min-w-[100px] bg-slate-600 py-4 px-2 rounded-2xl inline-flex",
+          "min-w-[100px] bg-primary text-sm font-normal text-light py-2 px-2 rounded-2xl inline-flex",
           {
             "float-right": isMine,
-            "rounded-tl-none": !isMine,
-            "rounded-tr-none": isMine,
+            "rounded-bl-none": !isMine,
+            "rounded-br-none": isMine,
           }
         )}
       >

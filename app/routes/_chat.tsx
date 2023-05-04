@@ -7,12 +7,13 @@ import {
   type ConversationsType,
   getAllConversations,
 } from "~/services/http/conversation.service";
-import {
-  storedUser,
-  type loginUserApiResponse,
-} from "~/services/http/user.service";
+import type { storedUser } from "~/services/http/user.service";
 import { useClient } from "~/store/useClient";
-import type { BaseResponse } from "~/types/api/GenericResponseType";
+import { useConversations } from "~/store/useConversations";
+import type {
+  BaseResponse,
+  GenericResponse,
+} from "~/types/api/GenericResponseType";
 
 export async function loader({ request }: LoaderArgs) {
   const user = (await authenticator.isAuthenticated(request)) as storedUser;
@@ -30,26 +31,20 @@ export async function loader({ request }: LoaderArgs) {
 export default function () {
   const data = useLoaderData();
   const setUSerID = useClient((store) => store.setUSerID);
+  const conversationsController = useConversations();
   useEffect(() => {
     if (data.objectId) setUSerID(data.objectId);
-    console.log("====================================");
-    console.log(data);
-    console.log("====================================");
-  }, [data.objectId]);
+    data.conversations.then(
+      (ConversationsType: BaseResponse<ConversationsType[]>) => {
+        conversationsController.setConversations(ConversationsType.result);
+      }
+    );
+  }, [data]);
   return (
     <Fragment>
       <Layout>
         <SideBar>
-          <Suspense fallback={<p>Loading package location...</p>}>
-            <Await
-              resolve={data.conversations}
-              errorElement={<p>Error loading package location!</p>}
-            >
-              {(conversations: BaseResponse<ConversationsType[]>) => {
-                return <Menu conversations={conversations.result} />;
-              }}
-            </Await>
-          </Suspense>
+          <Menu />
         </SideBar>
       </Layout>
     </Fragment>

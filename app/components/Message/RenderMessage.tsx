@@ -6,5 +6,5 @@ interface RenderMessagesType {
 }
 export const RenderMessages = ({ messages }: RenderMessagesType) => {
   const item = messages.map((item) => <Message key={v4()} message={item} />);
-  return <div className="flex flex-1 flex-col justify-end px-10">{item}</div>;
+  return <div className="flex flex-1 flex-col justify-end px-5">{item}</div>;
 };

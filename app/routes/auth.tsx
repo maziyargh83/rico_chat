@@ -1,8 +1,4 @@
-import {
-  RequestHandler,
-  type LinksFunction,
-  LoaderArgs,
-} from "@remix-run/node";
+import { type LinksFunction, type LoaderArgs } from "@remix-run/node";
 import clsx from "clsx";
 import { useEffect, useMemo, useState } from "react";
 import ReactCodeInput from "react-code-input";
