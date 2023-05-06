@@ -1,7 +1,8 @@
 import { type LoaderArgs, defer, redirect } from "@remix-run/node";
-import { useLoaderData, useLocation } from "@remix-run/react";
+import { useLoaderData } from "@remix-run/react";
 import { Fragment, useEffect } from "react";
 import { Layout, Menu, SideBar } from "~/components";
+import { useSocket } from "~/core/socket/useSocket";
 import { authenticator } from "~/services/auth.server";
 import {
   type ConversationsType,
@@ -24,7 +25,6 @@ export async function loader({ request }: LoaderArgs) {
 }
 export default function () {
   const data = useLoaderData();
-  const location = useLocation();
   const setUSerID = useClient((store) => store.setUSerID);
   const setToken = useClient((store) => store.setToken);
   const conversationsController = useConversations();
@@ -38,9 +38,8 @@ export default function () {
       }
     );
   }, [data]);
-  useEffect(() => {
-    // MessageState.clear();
-  }, [location]);
+  useSocket();
+
   return (
     <Fragment>
       <Layout>

@@ -121,7 +121,10 @@ export default function Auth() {
   }, [countDown]);
   return (
     <AnimatePresence initial={false}>
-      <div className="w-screen h-screen flex justify-center items-center">
+      <div className="w-screen h-screen flex-col flex justify-center items-center">
+        <div className="relative h-48 w-48">
+          <img src="/blob.png" className="absolute w-full h-full" alt="" />
+        </div>
         <div className="flex flex-col w-[400px] p-10 shadow-lg rounded-2xl  border">
           <p className="text-lg font-bold">Enter your email</p>
           <motion.div
