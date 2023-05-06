@@ -14,9 +14,7 @@ export const RenderMessages = () => {
   if (MessageState.size == 0) return <Empty />;
   return (
     <div className="flex-1 flex min-h-full">
-      <div className="flex flex-1 flex-col justify-end px-5 pt-10  overflow-scroll">
-        {item}
-      </div>
+      <div className="flex flex-1 flex-col justify-end px-5 pt-10">{item}</div>
     </div>
   );
 };
