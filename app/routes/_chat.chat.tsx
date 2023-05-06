@@ -1,25 +1,54 @@
-import { Outlet, useParams } from "@remix-run/react";
-import { type KeyboardEvent, useState, useMemo } from "react";
+import { type LoaderArgs, redirect } from "@remix-run/node";
+import {
+  Outlet,
+  useLoaderData,
+  useLocation,
+  useParams,
+} from "@remix-run/react";
+import { type KeyboardEvent, useState, useMemo, useEffect } from "react";
 import { FiSend } from "react-icons/fi";
 import { Avatar } from "~/components";
+import { authenticator } from "~/services/auth.server";
+import { CreateMessage } from "~/services/http/conversation.service";
+import type { loginUserApiResponse } from "~/services/http/user.service";
 import { useConversations } from "~/store/useConversations";
+import { useMessage } from "~/store/useMessages";
+import { createMessage } from "~/types/createMessage";
+export async function loader({ request }: LoaderArgs) {
+  const user = (await authenticator.isAuthenticated(
+    request
+  )) as loginUserApiResponse;
+  if (!user) return redirect("/");
+  return { token: user.accessToken };
+}
 export default function () {
   const [inputValue, setInputValue] = useState<string>("");
   let { id } = useParams();
+  const { token } = useLoaderData();
+  const location = useLocation();
+  const MessageState = useMessage();
+
   const conversations = useConversations((store) => store.conversations);
   const activeConversation = useMemo(() => {
     if (!id || conversations.length == 0) return;
     return conversations.find((item) => item.objectId == id);
   }, [conversations, id]);
 
-  const createMessage = () => {
-   
+  const onCreateMessage = async () => {
+    if (!id) return;
+    const data = new createMessage(id, inputValue);
+    const res = await CreateMessage(data, token);
+    MessageState.setMessage(res.result);
+    setInputValue("");
   };
   const detectEnter = (e: KeyboardEvent) => {
     if (e.key === "Enter" && e.metaKey) {
-      createMessage();
+      onCreateMessage();
     }
   };
+  useEffect(() => {
+    MessageState.clear();
+  }, [location]);
   return (
     <div className="flex flex-col justify-between h-full">
       {activeConversation && (
@@ -41,7 +70,7 @@ export default function () {
             placeholder="Enter Message..."
             onKeyDown={detectEnter}
           />
-          <button className="px-4 text-reverse" onClick={createMessage}>
+          <button className="px-4 text-reverse" onClick={onCreateMessage}>
             <FiSend />
           </button>
         </div>

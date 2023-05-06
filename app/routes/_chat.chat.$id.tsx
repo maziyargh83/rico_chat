@@ -1,6 +1,11 @@
 import { redirect, type LoaderArgs, defer } from "@remix-run/node";
-import { Await, useLoaderData } from "@remix-run/react";
-import { Suspense } from "react";
+import {
+  Await,
+  useLoaderData,
+  useLocation,
+  useRevalidator,
+} from "@remix-run/react";
+import { Suspense, useEffect } from "react";
 import { v4 } from "uuid";
 import { RenderMessages } from "~/components";
 import { authenticator } from "~/services/auth.server";
@@ -9,6 +14,7 @@ import {
   getConversationMessage,
 } from "~/services/http/conversation.service";
 import { type loginUserApiResponse } from "~/services/http/user.service";
+import { useMessage } from "~/store/useMessages";
 import { type BaseResponse } from "~/types/api/GenericResponseType";
 export async function loader({ params, request }: LoaderArgs) {
   const user = (await authenticator.isAuthenticated(
@@ -22,19 +28,17 @@ export async function loader({ params, request }: LoaderArgs) {
     messages: getMessages,
   });
 }
+
 export default function () {
   const data = useLoaderData();
+  const MessageState = useMessage();
+  const location = useLocation();
 
-  return (
-    <Suspense fallback={<p>Loading package location...</p>}>
-      <Await
-        resolve={data.messages}
-        errorElement={<p>Error loading package location!</p>}
-      >
-        {(messages: BaseResponse<MessageType[]>) => {
-          return <RenderMessages key={v4()} messages={messages.result} />;
-        }}
-      </Await>
-    </Suspense>
-  );
+  useEffect(() => {
+    data.messages.then((data: BaseResponse<MessageType[]>) => {
+      MessageState.setMessages(data.result);
+    });
+  }, [location]);
+
+  return <RenderMessages key={v4()} />;
 }

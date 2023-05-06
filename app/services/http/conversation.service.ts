@@ -1,6 +1,8 @@
 import axios from "axios";
 import { config } from "~/Config";
 import { type BaseResponse } from "~/types/api/GenericResponseType";
+import { createConversation } from "~/types/createConversations";
+import { createMessage } from "~/types/createMessage";
 
 export interface ConversationsType {
   createdAt: string;
@@ -33,9 +35,14 @@ export const getAllConversations = async (token: string) => {
 
   return res.data;
 };
-export const getJoinedConversations = async () => {
+export const getJoinedConversations = async (token: string) => {
   const res = await axios.get<BaseResponse<ConversationsType[]>>(
-    config.conversationBaseUrl + "conversation/joined"
+    config.conversationBaseUrl + "conversation/joined",
+    {
+      headers: {
+        Authorization: token,
+      },
+    }
   );
   return res.data;
 };
@@ -43,6 +50,50 @@ export const getJoinedConversations = async () => {
 export const getConversationMessage = async (id: string, token: string) => {
   const res = await axios.get<BaseResponse<MessageType[]>>(
     config.conversationBaseUrl + "message/" + id,
+    {
+      headers: {
+        Authorization: token,
+      },
+    }
+  );
+  return res.data;
+};
+export const CreateConversation = async (
+  conversation: createConversation,
+  token: string
+) => {
+  const res = await axios.post<BaseResponse<ConversationsType>>(
+    config.conversationBaseUrl + "conversation",
+    conversation,
+    {
+      headers: {
+        Authorization: token,
+      },
+    }
+  );
+  return res.data;
+};
+export const updateConversation = async (
+  conversation: createConversation,
+  objectId: string,
+  token: string
+) => {
+  const res = await axios.put<BaseResponse<ConversationsType>>(
+    config.conversationBaseUrl + "conversation",
+    { ...conversation, objectId },
+    {
+      headers: {
+        Authorization: token,
+      },
+    }
+  );
+  return res.data;
+};
+
+export const CreateMessage = async (message: createMessage, token: string) => {
+  const res = await axios.post<BaseResponse<MessageType>>(
+    config.conversationBaseUrl + "message",
+    message,
     {
       headers: {
         Authorization: token,
