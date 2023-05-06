@@ -102,3 +102,51 @@ export const CreateMessage = async (message: createMessage, token: string) => {
   );
   return res.data;
 };
+export const UpdateMessage = async (
+  text: string,
+  objectId: string,
+  token: string
+) => {
+  const res = await axios.put<BaseResponse<MessageType>>(
+    config.conversationBaseUrl + "message",
+    { text, objectId },
+    {
+      headers: {
+        Authorization: token,
+      },
+    }
+  );
+  return res.data;
+};
+
+export const leaveChat = async (
+  conversation: string,
+  user: string,
+  token: string
+) => {
+  const res = await axios.delete<BaseResponse<MessageType>>(
+    config.conversationBaseUrl +
+      "conversation/leave-kick/" +
+      conversation +
+      "/" +
+      user,
+    {
+      headers: {
+        Authorization: token,
+      },
+    }
+  );
+  return res.data;
+};
+
+export const deleteMessage = async (messageId: string, token: string) => {
+  const res = await axios.delete<BaseResponse<MessageType>>(
+    config.conversationBaseUrl + "message/" + messageId,
+    {
+      headers: {
+        Authorization: token,
+      },
+    }
+  );
+  return res.data;
+};

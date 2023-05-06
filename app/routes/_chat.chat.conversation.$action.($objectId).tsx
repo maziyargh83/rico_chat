@@ -72,64 +72,66 @@ export default function Conversation() {
     }
   }, [activeConversation]);
   return (
-    <div className="bg-primary self-center mx-auto p-10 rounded-2xl">
-      <h3 className="text-light text-2xl font-bold text-center uppercase mb-10">
-        {formAction} conversation
-      </h3>
-      <div className="flex flex-col space-y-10 ">
-        <div className="flex flex-col">
-          <p className="text-light text-base font-bold mb-5">
-            Title Conversation
-          </p>
-          <input
-            type="text"
-            value={formData.title}
-            name="title"
-            onChange={changeForm}
-            className="bg-transparent border rounded p-2 text-light flex-1"
-          />
-        </div>
-        <div className="flex flex-col">
-          <p className="text-light text-base font-bold mb-5">
-            Description Conversation
-          </p>
-          <input
-            type="text"
-            value={formData.description}
-            name="description"
-            onChange={changeForm}
-            className="bg-transparent border rounded p-2 text-light flex-1"
-          />
-        </div>
-        <div className="flex flex-col space-y-3 text-light">
-          <label className="space-x-2">
+    <div className="flex flex-1 flex-col justify-center items-center h-full">
+      <div className="bg-primary self-center mx-auto p-10 rounded-2xl">
+        <h3 className="text-light text-2xl font-bold text-center uppercase mb-10">
+          {formAction} conversation
+        </h3>
+        <div className="flex flex-col space-y-10 ">
+          <div className="flex flex-col">
+            <p className="text-light text-base font-bold mb-5">
+              Title Conversation
+            </p>
             <input
-              type="radio"
-              name="status"
-              value={status.private}
+              type="text"
+              value={formData.title}
+              name="title"
               onChange={changeForm}
-              checked={formData.status == status.private}
+              className="bg-transparent border rounded p-2 text-light flex-1"
             />
-            <span>Private</span>
-          </label>
-          <label className="space-x-2">
+          </div>
+          <div className="flex flex-col">
+            <p className="text-light text-base font-bold mb-5">
+              Description Conversation
+            </p>
             <input
-              type="radio"
-              name="status"
-              value={status.public}
+              type="text"
+              value={formData.description}
+              name="description"
               onChange={changeForm}
-              checked={formData.status == status.public}
+              className="bg-transparent border rounded p-2 text-light flex-1"
             />
+          </div>
+          <div className="flex flex-col space-y-3 text-light">
+            <label className="space-x-2">
+              <input
+                type="radio"
+                name="status"
+                value={status.private}
+                onChange={changeForm}
+                checked={formData.status == status.private}
+              />
+              <span>Private</span>
+            </label>
+            <label className="space-x-2">
+              <input
+                type="radio"
+                name="status"
+                value={status.public}
+                onChange={changeForm}
+                checked={formData.status == status.public}
+              />
 
-            <span>Public</span>
-          </label>
+              <span>Public</span>
+            </label>
+          </div>
+          <button
+            onClick={submit}
+            className="border p-5 text-green-400 border-green-300 uppercase hover:bg-green-100/20 rounded"
+          >
+            {formAction}
+          </button>
         </div>
-        <button
-          onClick={submit}
-          className="border p-5 text-green-400 border-green-300 uppercase hover:bg-green-100/20 rounded"
-        >
-          {formAction}
-        </button>
       </div>
     </div>
   );
