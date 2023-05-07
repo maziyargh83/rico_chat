@@ -1,7 +1,7 @@
 import { Link } from "@remix-run/react";
 import clsx from "clsx";
 import { PropsWithChildren } from "react";
-import { FiList, FiPlus } from "react-icons/fi";
+import { FiList, FiLogOut, FiPlus } from "react-icons/fi";
 import { v4 } from "uuid";
 import type { ConversationsType } from "~/services/http/conversation.service";
 import { useConversations } from "~/store/useConversations";
@@ -20,10 +20,13 @@ export const Menu = () => {
     <div className="flex flex-col justify-between h-full py-10 pt-5">
       <div className="flex flex-col items-center space-y-4 mt-4">{items}</div>
       <div className="flex flex-col items-center space-y-5 justify-center ">
+        <Link to={"/auth/logout"}>
+          <FiLogOut className="text-red-400" size={20} />
+        </Link>
         <Link to={"/chat/conversation/join"}>
           <FiList className="text-light" size={20} />
         </Link>
-        <Link to={"/chat/conversation/create"}>
+        <Link to={"/auth/conversation/create"}>
           <FiPlus className="text-light" size={20} />
         </Link>
       </div>
