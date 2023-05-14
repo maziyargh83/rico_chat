@@ -5,8 +5,8 @@ interface Config {
   [key: string]: string | Record<string, string>;
 }
 export const config: Config = {
-  baseUrl: "https://ricoauthservice.iran.liara.run/",
-  conversationBaseUrl: "https://ricochatservice.iran.liara.run/",
+  baseUrl: "https://ricoauth.iran.liara.run/",
+  conversationBaseUrl: "https://riconet.iran.liara.run/",
   baseTheme: "dark",
   PrefixVariable: {
     background: "--",

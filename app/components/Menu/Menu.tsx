@@ -26,7 +26,7 @@ export const Menu = () => {
         <Link to={"/chat/conversation/join"}>
           <FiList className="text-light" size={20} />
         </Link>
-        <Link to={"/auth/conversation/create"}>
+        <Link to={"/chat/conversation/create"}>
           <FiPlus className="text-light" size={20} />
         </Link>
       </div>
