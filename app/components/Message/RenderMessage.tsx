@@ -10,11 +10,18 @@ export const RenderMessages = () => {
   const item = [...MessageState].map(([id, item]) => (
     <Message key={v4()} message={item} />
   ));
-
+  const ref = useRef<HTMLDivElement>();
+  useLayoutEffect(() => {
+    if (!ref.current) return;
+    ref.current.scrollIntoView({ behavior: "smooth" });
+  }, [MessageState.size, ref.current]);
   if (MessageState.size == 0) return <Empty />;
   return (
     <div className="flex-1 flex min-h-full">
-      <div className="flex flex-1 flex-col justify-end px-5 pt-10">{item}</div>
+      <div className="flex flex-1 flex-col justify-end px-5 pt-10">
+        {item}
+        <div ref={ref} />
+      </div>
     </div>
   );
 };
