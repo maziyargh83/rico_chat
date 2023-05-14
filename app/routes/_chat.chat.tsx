@@ -67,7 +67,7 @@ export default function () {
     }
   };
   const detectEnter = (e: KeyboardEvent) => {
-    if (e.key === "Enter" && e.metaKey) {
+    if ((e.key === "Enter" && e.metaKey) || (e.key === "Enter" && e.ctrlKey)) {
       onCreateMessage();
     }
   };

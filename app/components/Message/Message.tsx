@@ -42,10 +42,12 @@ export const Message = ({ message }: MessageProps) => {
         )}
       >
         <p className="break-words max-w-[100%]">{message.text}</p>
-        <div className="group-hover:flex hidden z-[99999] flex-row border border-light bg-body space-x-2 bottom-[100%] rounded p-2 absolute -left-0">
-          <FiTrash className="text-red-400" onClick={doDeleteMessage} />
-          <FiEdit className="text-green-400" onClick={setEdit} />
-        </div>
+        {isMine && (
+          <div className="group-hover:flex hidden z-[99999] flex-row border border-light bg-body space-x-2 bottom-[100%] rounded p-2 absolute -left-0">
+            <FiTrash className="text-red-400" onClick={doDeleteMessage} />
+            <FiEdit className="text-green-400" onClick={setEdit} />
+          </div>
+        )}
       </div>
     </div>
   );
